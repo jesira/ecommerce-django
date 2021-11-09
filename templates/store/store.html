@@ -57,7 +57,7 @@
 </header><!-- sect-heading -->
 
 <div class="row">
-	{% if products %}
+
 	{% for product in products %}
 	<div class="col-md-4">
 		<figure class="card card-product-grid">
@@ -78,11 +78,7 @@
 		</figure>
 	</div> <!-- col.// -->
 	{% endfor %}
-	{% else %}
-	<div>
-		<h2>No result found. Please try again.</h2>
-	</div>
-	{% endif %}
+
 </div> <!-- row end.// -->
 
 
@@ -97,7 +93,7 @@
 
 			{% for i in products.paginator.page_range %}
 				{% if products.number == i %}
-	    		<li class="page-item active"><a class="page-link" href="#">{{i}}</a></li>
+	    		<li class="page-item active"><a class="page-link" href="#">{{i}}</a></li> <!--to show active inavtive numbers-->
 				{% else %}
 					<li class="page-item"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
 				{% endif %}
