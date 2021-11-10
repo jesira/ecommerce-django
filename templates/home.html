@@ -7,12 +7,7 @@
 <!-- ========================= SECTION MAIN ========================= -->
 <section class="section-intro padding-y-sm">
 <div class="container">
-<!--
-<div class="intro-banner-wrap">
-	<img src="{%static 'images/banners/1.jpg' %}" class="img-fluid rounded">
-</div>
-banner image///
- -->
+
 </div> <!-- container //  -->
 </section>
 <!-- ========================= SECTION MAIN END// ========================= -->
@@ -26,7 +21,6 @@ banner image///
 	<h3 class="section-title">Popular products</h3>
 </header><!-- sect-heading -->
 
-
 <div class="row">
 	{% for product in products %}
 	<div class="col-md-3">
@@ -34,7 +28,7 @@ banner image///
 			<a href="{{product.get_url}}" class="img-wrap"> <img src="{{product.images.url}}"> </a>
 			<figcaption class="info-wrap">
 				<a href="{{product.get_url}}" class="title">{{product.product_name}}</a>
-				<div class="price mt-1">BDT {{product.price}}</div> <!-- price-wrap.// -->
+				<div class="price mt-1">${{product.price}}</div> <!-- price-wrap.// -->
 			</figcaption>
 		</div>
 	</div> <!-- col.// -->
