@@ -1,12 +1,15 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import RegistrationForm, UserForm
 from .models import Account
+from orders.models import Order, OrderProduct
 from django.contrib import messages, auth
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 
+
 # Verification email
 from django.contrib.sites.shortcuts import get_current_site
+from django.views.decorators.csrf import ensure_csrf_cookie
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes
@@ -17,7 +20,7 @@ from carts.views import _cart_id
 from carts.models import Cart, CartItem
 
 
-
+@ensure_csrf_cookie
 def register(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
@@ -30,16 +33,13 @@ def register(request):
             username = email.split("@")[0]
             user = Account.objects.create_user(first_name=first_name, last_name=last_name, email=email, username=username, password=password)
             user.phone_number = phone_number
+            user.is_active = True
             user.save()
-
-            # Create a user profile
-            profile = UserProfile()
-            profile.user_id = user.id
-            profile.profile_picture = 'default/default-user.png'
-            profile.save()
+            return render(request, 'accounts/login.html')
 
             # USER ACTIVATION
-            current_site = get_current_site(request)
+            """current_site = get_current_site(request)
+            console.log(current_site)
             mail_subject = 'Please activate your account'
             message = render_to_string('accounts/account_verification_email.html', {
                 'user': user,
@@ -51,7 +51,7 @@ def register(request):
             send_email = EmailMessage(mail_subject, message, to=[to_email])
             send_email.send()
             # messages.success(request, 'Thank you for registering with us. We have sent you a verification email to your email address [rathan.kumar@gmail.com]. Please verify it.')
-            return redirect('/accounts/login/?command=verification&email='+email)
+            return redirect('/accounts/login/?command=verification&email='+email)"""
     else:
         form = RegistrationForm()
     context = {
@@ -59,7 +59,7 @@ def register(request):
     }
     return render(request, 'accounts/register.html', context)
 
-
+@ensure_csrf_cookie
 def login(request):
     if request.method == 'POST':
         email = request.POST['email']
@@ -151,7 +151,8 @@ def activate(request, uidb64, token):
 
 @login_required(login_url = 'login')
 def dashboard(request):
-    return render(request, 'accounts/dashboard.html')
+
+    return render(request, 'store/store.html')
 
 
 def forgot_password(request):
@@ -191,7 +192,7 @@ def resetpassword_validate(request, uidb64, token):
     if user is not None and default_token_generator.check_token(user, token):
         request.session['uid'] = uid
         messages.success(request, 'Please reset your password')
-        return redirect('resetPassword')
+        return redirect('reset_password')
     else:
         messages.error(request, 'This link has been expired!')
         return redirect('login')

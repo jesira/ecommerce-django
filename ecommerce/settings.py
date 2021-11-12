@@ -25,7 +25,7 @@ SECRET_KEY = 'czdl1yaop6y49c6h94v)k&ry^(&hkq*4fr-7&xay_ma*8c7fl='
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'accounts',
     'store',
     'carts',
+    'orders',
 
 ]
 
@@ -142,7 +143,7 @@ MESSAGE_TAGS = {
     50: 'critical',
 }
 # SMTP configuration
-EMAIL_HOST = 'smtp@gmail.com'
+EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'jesira.development@gmail.com'
 EMAIL_HOST_PASSWORD = 'dev_123456'
